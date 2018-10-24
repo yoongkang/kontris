@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WriteFilePlugin = require('write-file-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
 module.exports = {
@@ -21,12 +23,15 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'lib')
+    path: path.resolve(__dirname, 'lib'),
+    library: 'kontris',
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Kontris',
       template: 'index.html'
-    })
+    }),
+    new CopyWebpackPlugin(['./vendor/'], {}),
+    new WriteFilePlugin()
   ]
 };

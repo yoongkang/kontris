@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Kontris</title>
-    <script type="text/javascript" src="bundle.js"></script>
 
-  </head>
-  <body>
-    <h1>Kontris</h1>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>Kontris</title>
+  <script src="kontra.min.js"></script>
+
+</head>
+
+<body>
+  <h1>Kontris</h1>
+  <hr />
+  <canvas width="800" height="600" style="border: 1px solid">
+
+  </canvas>
+
+
+</body>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    kontris.default(kontra);
+  })
+</script>
+
 </html>
