@@ -1,0 +1,19 @@
+{
+  "name": "kontris",
+  "version": "1.0.0",
+  "description": "Sample block game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yoong Kang Lim",
+  "license": "MIT",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "webpack": "^4.22.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2"
+  }
+}
