@@ -18,8 +18,12 @@ export class Piece {
   numOrientations: number;
   orientations: Map<number, Point[]>
 
-  constructor(rotation: number = 0) {
-    this.rotation = rotation;
+  getRandomRotation(): number {
+    return Math.floor(Math.random() * Math.floor(this.numOrientations - 1));
+  }
+
+  getStartingPoint(): Point {
+    return {x: 4, y: 0}
   }
 
   rotateRight(game: Game) {
@@ -61,7 +65,7 @@ export class Piece {
 
 
 export class TPiece extends Piece {
-  numOrientations: number = 4;
+  numOrientations: number;
   color: number = 2;
   orientations = new Map<number, Point[]>(
     [
@@ -71,4 +75,36 @@ export class TPiece extends Piece {
       [3, [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: -1}, {x: -1, y: 0}]],
     ]
   )
+
+  constructor() {
+    super();
+    this.numOrientations = 4;
+    this.rotation = this.getRandomRotation();
+  }
+
+}
+
+
+export class SquarePiece extends Piece {
+  numOrientations: number;
+  color: number = 3;
+  orientations = new Map<number, Point[]>(
+    [
+      [0, [{x: 0, y: 0}, {x: 1, y: 0}, {x: 0, y: 1}, {x: 1, y: 1}]]
+    ]
+  )
+
+  constructor() {
+    super();
+    this.numOrientations = 1;
+    this.rotation = this.getRandomRotation();
+  }
+}
+
+
+const pieces = [TPiece, SquarePiece]
+
+export const getRandomPiece = (): Piece => {
+  let rn = Math.floor(Math.random() * Math.floor(pieces.length));
+  return new pieces[rn]();
 }

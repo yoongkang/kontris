@@ -2,7 +2,7 @@ import {
   GRID_HEIGHT, GRID_WIDTH, BLANK, COLORS
 } from './constants';
 
-import { Piece, TPiece, Point, Block } from './pieces';
+import { Piece, TPiece, Point, Block, getRandomPiece } from './pieces';
 import { flatten } from './helpers';
 
 
@@ -18,8 +18,8 @@ export default class Game {
 
   constructor(state?: number[][]) {
     this.state = state || this.getDefaultState();
-    this.currentPiece = new TPiece(2);
-    this.currentLocation = {x: 4, y: 0}
+    this.currentPiece = getRandomPiece();
+    this.currentLocation = this.currentPiece.getStartingPoint();
     this.dropDelay = 0.5;
     this.gameOver = false;
   }
@@ -56,8 +56,8 @@ export default class Game {
       this.state[block.y][block.x] = block.color;
     });
     this.clearLines();
-    this.currentPiece = new TPiece(0);
-    this.currentLocation = {x: 4, y: 0};
+    this.currentPiece = getRandomPiece();
+    this.currentLocation = this.currentPiece.getStartingPoint();
   }
 
   tick() {
