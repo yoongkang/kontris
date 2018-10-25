@@ -1,3 +1,4 @@
+import Game from './game';
 
 export interface Point {
   x: number;
@@ -34,7 +35,7 @@ export class Piece {
     }
   }
 
-  checkLanded(): boolean {
+  checkLanded(game: Game): boolean {
     return false;
   }
 
