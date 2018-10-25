@@ -19,7 +19,7 @@ export class Piece {
   orientations: Map<number, Point[]>
 
   getRandomRotation(): number {
-    return Math.floor(Math.random() * Math.floor(this.numOrientations - 1));
+    return Math.floor(Math.random() * Math.floor(this.numOrientations));
   }
 
   getStartingPoint(): Point {
