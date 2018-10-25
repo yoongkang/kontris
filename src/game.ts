@@ -13,33 +13,107 @@ export default class Game {
   state: number[][];
   currentPiece: Piece;
   currentLocation: Point;
+  dropDelay: number;
+  gameOver: boolean;
 
   constructor(state?: number[][]) {
     this.state = state || this.getDefaultState();
     this.currentPiece = new TPiece(2);
-    this.currentLocation = {x: 4, y: 1}
+    this.currentLocation = {x: 4, y: 0}
+    this.dropDelay = 0.5;
+    this.gameOver = false;
+  }
+
+  checkLegal() {
+    let blocks = this.currentBlocks();
+    return blocks.every(b => this.blockLegal(b));
+  }
+
+  currentBlocks() {
+    return this.currentPiece.blocks(this.currentLocation);
+  }
+
+  clearLine(rowIndex: number) {
+    let newRow = [new Array(GRID_WIDTH).fill(BLANK)];
+    let firstPart = this.state.slice(0, rowIndex);
+    let secondPart = this.state.slice(rowIndex + 1);
+    this.state = newRow.concat(firstPart, secondPart);
+  }
+
+  clearLines() {
+    let lines = this.state.map((row, index) => {
+      if (row.every(x => x > 0)) {
+        return index;
+      }
+      return -1;
+    }).filter(x => x >= 0);
+    lines.forEach(this.clearLine.bind(this));
+  }
+
+  land() {
+    let blocks = this.currentPiece.blocks(this.currentLocation);
+    blocks.forEach(block => {
+      this.state[block.y][block.x] = block.color;
+    });
+    this.clearLines();
+    this.currentPiece = new TPiece(0);
+    this.currentLocation = {x: 4, y: 0};
   }
 
   tick() {
-    let landed = this.currentPiece.checkBlocked(this, 'down');
-    if (!landed) {
-      this.currentLocation.y += 1;
-    } else {
-      let blocks = this.currentPiece.blocks(this.currentLocation);
-      blocks.forEach(block => {
-        this.state[block.y][block.x] = block.color;
-      });
-      this.currentPiece = new TPiece(0);
-      this.currentLocation = {x: 4, y: 1};
+    if (this.gameOver) {
+      return;
     }
+    if (!this.checkLegal()) {
+      this.gameOver = true;
+    } else {
+      if (!this.moveDown()) {
+        this.land();
+      }
+    }
+
+  }
+
+  blockLegal(block: Block): boolean {
+    let {x, y, color} = block;
+    let inBounds = (x >= 0) && (x <= GRID_WIDTH - 1) && (y <= GRID_HEIGHT - 1);
+    if (!inBounds) return false;
+    return (this.state[y][x] == 0);
   }
 
   rotateLeft() {
-    this.currentPiece.rotateLeft();
+    this.currentPiece.rotateLeft(this);
   }
 
   rotateRight() {
-    this.currentPiece.rotateRight();
+    this.currentPiece.rotateRight(this);
+  }
+
+  moveDown() {
+    this.currentLocation.y += 1;
+    if (!this.checkLegal()) {
+      this.currentLocation.y -= 1;
+      return false;
+    }
+    return true;
+  }
+
+  moveLeft() {
+    this.currentLocation.x -= 1;
+    if (!this.checkLegal()) {
+      this.currentLocation.x += 1;
+      return false;
+    }
+    return true;
+  }
+
+  moveRight() {
+    this.currentLocation.x += 1;
+    if (!this.checkLegal()) {
+      this.currentLocation.x -= 1;
+      return false;
+    }
+    return true;
   }
 
   /**

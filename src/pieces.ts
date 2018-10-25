@@ -22,29 +22,27 @@ export class Piece {
     this.rotation = rotation;
   }
 
-  rotateRight() {
+  rotateRight(game: Game) {
+    const oldRotation = this.rotation;
     this.rotation -= 1;
     if (this.rotation < 0) {
       this.rotation = this.numOrientations - 1;
     }
+    if (!game.checkLegal()) {
+      this.rotation = oldRotation;
+    }
   }
 
-  rotateLeft() {
+  rotateLeft(game: Game) {
+    const oldRotation = this.rotation;
     this.rotation += 1;
     if (this.rotation >= this.numOrientations) {
       this.rotation = 0;
     }
-  }
-
-  checkBlocked(game: Game, direction: string): boolean {
-    if (direction === 'down') {
-      let blocks = this.blocks(game.currentLocation);
-      return !blocks.every(b => {
-        if (b.y === GRID_HEIGHT - 1) return false;
-        return game.state[b.y + 1][b.x] === 0
-      });
+    let blocks = this.blocks(game.currentLocation);
+    if (!game.checkLegal()) {
+      this.rotation = oldRotation;
     }
-    return false;
   }
 
   blocks(centroid: Point): Block[] {

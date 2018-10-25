@@ -9,15 +9,13 @@ import {
 export default class Renderer {
   __kontra: any;
   game: Game;
-  tick_counter: number
-  drop_delay: number
+  tickCounter: number
   pressed: boolean
 
   constructor(kontra: any, game: Game) {
     this.__kontra = kontra;
     this.game = game;
-    this.tick_counter = 0.0;
-    this.drop_delay = 2;
+    this.tickCounter = 0.0;
     this.pressed = false;
   }
 
@@ -35,24 +33,40 @@ export default class Renderer {
   }
 
   update(dt: number) {
-    this.tick_counter += dt;
-    if (this.tick_counter >= this.drop_delay) {
-      this.tick_counter = 0;
+    this.tickCounter += dt;
+    if (this.tickCounter >= this.game.dropDelay) {
+      this.tickCounter = 0;
       this.game.tick();
-      // this.game.rotateLeft();
     }
 
+    const q = this.__kontra.keys.pressed('q');
+    const w = this.__kontra.keys.pressed('w');
+    const left = this.__kontra.keys.pressed('left');
+    const right = this.__kontra.keys.pressed('right');
+    const down = this.__kontra.keys.pressed('down');
     if (!this.pressed) {
-      if (this.__kontra.keys.pressed('q')) {
+      if (q) {
         this.pressed = true;
         this.game.rotateLeft();
       }
-      if (this.__kontra.keys.pressed('w')) {
+      if (w) {
         this.pressed = true;
         this.game.rotateRight();
       }
+      if (left) {
+        this.pressed = true;
+        this.game.moveLeft();
+      }
+      if (right) {
+        this.pressed = true;
+        this.game.moveRight();
+      }
+      if (down) {
+        this.pressed = true;
+        if (!this.game.moveDown()) this.game.land();
+      }
     } else {
-      if (!(this.__kontra.keys.pressed('q') || (this.__kontra.keys.pressed('w')))) {
+      if (!(q || w || left || right || down)) {
         this.pressed = false;
       }
     }
