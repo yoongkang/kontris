@@ -101,8 +101,98 @@ export class SquarePiece extends Piece {
   }
 }
 
+export class LPiece extends Piece {
+  numOrientations: number;
+  color: number = 6;
+  orientations = new Map<number, Point[]>(
+    [
+      [0, [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: -1}, {x: 1, y: 1}]],
+      [1, [{x: 0, y: 0}, {x: 1, y: 0}, {x: -1, y: 0}, {x: 1, y: -1}]],
+      [2, [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: -1}, {x: -1, y: -1}]],
+      [3, [{x: 0, y: 0}, {x: -1, y: 0}, {x: 1, y: 0}, {x: -1, y: 1}]],
+    ]
+  )
 
-const pieces = [TPiece, SquarePiece]
+  constructor() {
+    super();
+    this.numOrientations = 4;
+    this.rotation = this.getRandomRotation();
+  }
+}
+
+export class ReverseLPiece extends Piece {
+  numOrientations: number;
+  color: number = 1;
+  orientations = new Map<number, Point[]>(
+    [
+      [0, [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: -1}, {x: -1, y: 1}]],
+      [1, [{x: 0, y: 0}, {x: 1, y: 0}, {x: -1, y: 0}, {x: 1, y: 1}]],
+      [2, [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: -1}, {x: 1, y: -1}]],
+      [3, [{x: 0, y: 0}, {x: -1, y: 0}, {x: 1, y: 0}, {x: -1, y: -1}]],
+    ]
+  )
+
+  constructor() {
+    super();
+    this.numOrientations = 4;
+    this.rotation = this.getRandomRotation();
+  }
+}
+
+export class SPiece extends Piece {
+  numOrientations: number;
+  color: number = 5;
+  orientations = new Map<number, Point[]>(
+    [
+      [0, [{x: 0, y: 0}, {x: 1, y: 0}, {x: 0, y: 1}, {x: -1, y: 1}]],
+      [1, [{x: 0, y: 0}, {x: 0, y: -1}, {x: 1, y: 0}, {x: 1, y: 1}]],
+    ]
+  )
+
+  constructor() {
+    super();
+    this.numOrientations = 2;
+    this.rotation = this.getRandomRotation();
+  }
+}
+
+
+export class ZPiece extends Piece {
+  numOrientations: number;
+  color: number = 7;
+  orientations = new Map<number, Point[]>(
+    [
+      [0, [{x: 0, y: 0}, {x: -1, y: 0}, {x: 0, y: 1}, {x: 1, y: 1}]],
+      [1, [{x: 0, y: 0}, {x: 1, y: 0}, {x: 1, y: -1}, {x: 0, y: 1}]],
+    ]
+  )
+
+  constructor() {
+    super();
+    this.numOrientations = 2;
+    this.rotation = this.getRandomRotation();
+  }
+}
+
+export class IPiece extends Piece {
+  numOrientations: number;
+  color: number = 4;
+  orientations = new Map<number, Point[]>(
+    [
+      [0, [{x: 0, y: 0}, {x: -1, y: 0}, {x: -2, y: 0}, {x: 1, y: 0}]],
+      [1, [{x: 0, y: 0}, {x: 0, y: -1}, {x: 0, y: -2}, {x: 0, y: 1}]],
+    ]
+  )
+
+  constructor() {
+    super();
+    this.numOrientations = 2;
+    this.rotation = this.getRandomRotation();
+  }
+}
+
+
+const pieces = [TPiece, SquarePiece, LPiece, ReverseLPiece, SPiece, ZPiece, IPiece]
 
 export const getRandomPiece = (): Piece => {
   let rn = Math.floor(Math.random() * Math.floor(pieces.length));
