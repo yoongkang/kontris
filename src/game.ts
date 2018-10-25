@@ -17,15 +17,20 @@ export default class Game {
   constructor(state?: number[][]) {
     this.state = state || this.getDefaultState();
     this.currentPiece = new TPiece(2);
-    this.currentLocation = {x: 4, y: 6}
+    this.currentLocation = {x: 4, y: 1}
   }
 
   tick() {
-    let landed = this.currentPiece.checkLanded(this);
+    let landed = this.currentPiece.checkBlocked(this, 'down');
     if (!landed) {
       this.currentLocation.y += 1;
     } else {
-
+      let blocks = this.currentPiece.blocks(this.currentLocation);
+      blocks.forEach(block => {
+        this.state[block.y][block.x] = block.color;
+      });
+      this.currentPiece = new TPiece(0);
+      this.currentLocation = {x: 4, y: 1};
     }
   }
 
@@ -51,8 +56,6 @@ export default class Game {
         };
       }).filter(x => x.color !== 0);
     });
-
-    // let currentPieceBlocks: Block[] = [];
     let currentPieceBlocks = this.currentPiece.blocks(this.currentLocation);
     return flatten([...gridBlocks, ...currentPieceBlocks]);
   }

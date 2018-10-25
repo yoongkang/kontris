@@ -1,4 +1,5 @@
 import Game from './game';
+import { GRID_HEIGHT } from './constants';
 
 export interface Point {
   x: number;
@@ -35,7 +36,14 @@ export class Piece {
     }
   }
 
-  checkLanded(game: Game): boolean {
+  checkBlocked(game: Game, direction: string): boolean {
+    if (direction === 'down') {
+      let blocks = this.blocks(game.currentLocation);
+      return !blocks.every(b => {
+        if (b.y === GRID_HEIGHT - 1) return false;
+        return game.state[b.y + 1][b.x] === 0
+      });
+    }
     return false;
   }
 
@@ -47,7 +55,7 @@ export class Piece {
         y: centroid.y + offset.y,
         color: this.color
       }
-    });
+    }).filter(x => x.y >= 0);
   }
 
 
