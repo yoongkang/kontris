@@ -44,8 +44,9 @@ export default class Renderer {
     const left = this.__kontra.keys.pressed('left');
     const right = this.__kontra.keys.pressed('right');
     const down = this.__kontra.keys.pressed('down');
+    const up = this.__kontra.keys.pressed('up');
     if (!this.pressed) {
-      if (q) {
+      if (q || up) {
         this.pressed = true;
         this.game.rotateLeft();
       }
@@ -66,7 +67,7 @@ export default class Renderer {
         if (!this.game.moveDown()) this.game.land();
       }
     } else {
-      if (!(q || w || left || right || down)) {
+      if (!(q || w || left || right || down || up)) {
         this.pressed = false;
       }
     }
