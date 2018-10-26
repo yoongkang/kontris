@@ -52,6 +52,10 @@ $ npm run build
 
 Have fun!
 
+## I have a question
+
+Always happy to help you out. Please create an issue, or email me at yoongkang.lim@gmail.com
+
 ## License
 
 MIT
