@@ -19,6 +19,9 @@ export default class Renderer {
     this.pressed = false;
   }
 
+  /**
+   * Get all the sprites we want to render
+   */
   sprites(): any[] {
     let blocks = this.game.getAllBlocks();
     return blocks.map(block => {
@@ -32,6 +35,10 @@ export default class Renderer {
     })
   }
 
+  /**
+   * Callback to update game at each timedelta
+   * TODO: break the commands into separate classes
+   */
   update(dt: number) {
     this.tickCounter += dt;
     if (this.tickCounter >= this.game.dropDelay) {
@@ -80,6 +87,9 @@ export default class Renderer {
 
   }
 
+  /**
+   * Draws the grid box (the playing area)
+   */
   drawGridBox() {
     let gridBox = this.__kontra.sprite({
       x: START_X,
@@ -99,6 +109,9 @@ export default class Renderer {
   }
 
 
+  /**
+   * Renders the entire game
+   */
   render() {
     this.drawGridBox();
 
@@ -117,6 +130,9 @@ export default class Renderer {
   }
 
 
+  /**
+   * Initializes the game
+   */
   start() {
     this.__kontra.init();
     let loop = this.__kontra.gameLoop({

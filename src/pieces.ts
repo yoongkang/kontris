@@ -12,20 +12,33 @@ export interface Block {
   color: number;
 }
 
+/**
+ * "Abstract" class for a tetris piece
+ */
 export class Piece {
   rotation: number;
   color: number;
   numOrientations: number;
   orientations: Map<number, Point[]>
 
+  /**
+   * Get a random orientation
+   */
   getRandomRotation(): number {
     return Math.floor(Math.random() * Math.floor(this.numOrientations));
   }
 
+  /**
+   * Starting point for this piece
+   */
   getStartingPoint(): Point {
     return {x: 4, y: 0}
   }
 
+  /**
+   * Rotate the piece right and returns the right position
+   * depending on the game's state
+   */
   rotateRight(game: Game) {
     const oldRotation = this.rotation;
     this.rotation -= 1;
@@ -37,6 +50,10 @@ export class Piece {
     }
   }
 
+  /**
+   * Rotate the piece left and returns the right position
+   * depending on the game's state
+   */
   rotateLeft(game: Game) {
     const oldRotation = this.rotation;
     this.rotation += 1;
@@ -49,6 +66,10 @@ export class Piece {
     }
   }
 
+  /**
+   * Returns the absolute coordinates given the position of
+   * the centroid
+   */
   blocks(centroid: Point): Block[] {
     const offsets = this.orientations.get(this.rotation);
     return offsets.map(offset => {
@@ -64,6 +85,9 @@ export class Piece {
 }
 
 
+/**
+ * Represents the T-piece
+ */
 export class TPiece extends Piece {
   numOrientations: number;
   color: number = 2;
@@ -84,7 +108,9 @@ export class TPiece extends Piece {
 
 }
 
-
+/**
+ * Represents the square piece
+ */
 export class SquarePiece extends Piece {
   numOrientations: number;
   color: number = 3;
@@ -101,6 +127,9 @@ export class SquarePiece extends Piece {
   }
 }
 
+/**
+ * Represents the L piece
+ */
 export class LPiece extends Piece {
   numOrientations: number;
   color: number = 6;
@@ -120,6 +149,9 @@ export class LPiece extends Piece {
   }
 }
 
+/**
+ * Represents the Reverse-L piece
+ */
 export class ReverseLPiece extends Piece {
   numOrientations: number;
   color: number = 1;
@@ -139,6 +171,9 @@ export class ReverseLPiece extends Piece {
   }
 }
 
+/**
+ * Represents the S piece
+ */
 export class SPiece extends Piece {
   numOrientations: number;
   color: number = 5;
@@ -156,7 +191,9 @@ export class SPiece extends Piece {
   }
 }
 
-
+/**
+ * Represents the Z piece
+ */
 export class ZPiece extends Piece {
   numOrientations: number;
   color: number = 7;
@@ -174,6 +211,9 @@ export class ZPiece extends Piece {
   }
 }
 
+/**
+ * Represents the I piece (the long one)
+ */
 export class IPiece extends Piece {
   numOrientations: number;
   color: number = 4;

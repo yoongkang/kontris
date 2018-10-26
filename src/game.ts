@@ -20,6 +20,9 @@ export default class Game {
     this.restart();
   }
 
+  /**
+   * Reinitialize game state
+   */
   restart() {
     this.state = this.getDefaultState();
     this.currentPiece = getRandomPiece();
@@ -28,15 +31,24 @@ export default class Game {
     this.dropDelay = 0.5;
   }
 
-  checkLegal() {
+  /**
+   * Check if current position is legal
+   */
+  checkLegal(): boolean {
     let blocks = this.currentBlocks();
     return blocks.every(b => this.blockLegal(b));
   }
 
+  /**
+   * Returns all the blocks for the current piece
+   */
   currentBlocks() {
     return this.currentPiece.blocks(this.currentLocation);
   }
 
+  /**
+   * Clear an individual line from the grid
+   */
   clearLine(rowIndex: number) {
     let newRow = [new Array(GRID_WIDTH).fill(BLANK)];
     let firstPart = this.state.slice(0, rowIndex);
@@ -44,6 +56,9 @@ export default class Game {
     this.state = newRow.concat(firstPart, secondPart);
   }
 
+  /**
+   * Clear any lines that are full
+   */
   clearLines() {
     let lines = this.state.map((row, index) => {
       if (row.every(x => x > 0)) {
@@ -54,6 +69,9 @@ export default class Game {
     lines.forEach(this.clearLine.bind(this));
   }
 
+  /**
+   * Logic for what happens when a piece has "landed"
+   */
   land() {
     let blocks = this.currentPiece.blocks(this.currentLocation);
     blocks.forEach(block => {
@@ -64,6 +82,9 @@ export default class Game {
     this.currentLocation = this.currentPiece.getStartingPoint();
   }
 
+  /**
+   * Advance the game's state at each time step
+   */
   tick() {
     if (this.gameOver) {
       return;
@@ -78,6 +99,9 @@ export default class Game {
 
   }
 
+  /**
+   * Checks if a block is at a legal location
+   */
   blockLegal(block: Block): boolean {
     let {x, y, color} = block;
     let inBounds = (x >= 0) && (x <= GRID_WIDTH - 1) && (y <= GRID_HEIGHT - 1);
@@ -85,14 +109,23 @@ export default class Game {
     return (this.state[y][x] == 0);
   }
 
+  /**
+   * Rotate the current piece to the left (CCW)
+   */
   rotateLeft() {
     this.currentPiece.rotateLeft(this);
   }
 
+    /**
+   * Rotate the current piece to the left (CW)
+   */
   rotateRight() {
     this.currentPiece.rotateRight(this);
   }
 
+  /**
+   * Moves the current piece down and lands it if we can't
+   */
   moveDown() {
     this.currentLocation.y += 1;
     if (!this.checkLegal()) {
@@ -102,6 +135,9 @@ export default class Game {
     return true;
   }
 
+  /**
+   * Moves the current piece left
+   */
   moveLeft() {
     this.currentLocation.x -= 1;
     if (!this.checkLegal()) {
@@ -111,6 +147,9 @@ export default class Game {
     return true;
   }
 
+  /**
+   * Moves the current piece right
+   */
   moveRight() {
     this.currentLocation.x += 1;
     if (!this.checkLegal()) {
