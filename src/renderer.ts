@@ -45,7 +45,13 @@ export default class Renderer {
     const right = this.__kontra.keys.pressed('right');
     const down = this.__kontra.keys.pressed('down');
     const up = this.__kontra.keys.pressed('up');
-    if (!this.pressed) {
+    const enter = this.__kontra.keys.pressed('enter');
+    if (this.game.gameOver) {
+      if (enter) {
+        this.game.restart();
+      }
+    }
+    if (!this.pressed && !this.game.gameOver) {
       if (q || up) {
         this.pressed = true;
         this.game.rotateLeft();

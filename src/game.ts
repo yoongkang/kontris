@@ -17,11 +17,15 @@ export default class Game {
   gameOver: boolean;
 
   constructor(state?: number[][]) {
-    this.state = state || this.getDefaultState();
+    this.restart();
+  }
+
+  restart() {
+    this.state = this.getDefaultState();
     this.currentPiece = getRandomPiece();
     this.currentLocation = this.currentPiece.getStartingPoint();
-    this.dropDelay = 0.5;
     this.gameOver = false;
+    this.dropDelay = 0.5;
   }
 
   checkLegal() {
