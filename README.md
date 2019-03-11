@@ -21,7 +21,6 @@ I suggested doing something along the lines of Tetris instead. A lot more impres
 If you're a bootcamp student, please look at this code to see how you can use Kontra.js to create a similar game, not necessarily Tetris. You could also fork this and add some features, like:
 
 * Scoring
-* Drop piece (currently you need to press the down arrow multiple times)
 * The concept of levels, currently we have one speed. Can you vary the speed based on how much you've scored?
 * Show the next piece
 * Design a better random generator for Tetrominoes -- currently it's using `Math.random()` but a much better way is to generate a sequence of 7 Tetrominoes ordered randomly. This prevents you from possibly going a long time without a stick piece, for example.

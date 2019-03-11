@@ -36,7 +36,7 @@ export default class Game {
    */
   checkLegal(): boolean {
     let blocks = this.currentBlocks();
-    return blocks.every(b => this.blockLegal(b));
+    return blocks.every(b => this.blockIsLegal(b));
   }
 
   /**
@@ -96,17 +96,16 @@ export default class Game {
         this.land();
       }
     }
-
   }
 
   /**
    * Checks if a block is at a legal location
    */
-  blockLegal(block: Block): boolean {
+  blockIsLegal(block: Block): boolean {
     let {x, y, color} = block;
     let inBounds = (x >= 0) && (x <= GRID_WIDTH - 1) && (y <= GRID_HEIGHT - 1);
     if (!inBounds) return false;
-    return (this.state[y][x] == 0);
+    return (this.state[y][x] === 0);
   }
 
   /**
@@ -132,6 +131,11 @@ export default class Game {
       this.currentLocation.y -= 1;
       return false;
     }
+    return true;
+  }
+
+  drop() {
+    while(this.moveDown());
     return true;
   }
 

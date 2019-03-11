@@ -53,6 +53,7 @@ export default class Renderer {
     const down = this.__kontra.keys.pressed('down');
     const up = this.__kontra.keys.pressed('up');
     const enter = this.__kontra.keys.pressed('enter');
+    const space = this.__kontra.keys.pressed('space');
     if (this.game.gameOver) {
       if (enter) {
         this.game.restart();
@@ -79,8 +80,13 @@ export default class Renderer {
         this.pressed = true;
         if (!this.game.moveDown()) this.game.land();
       }
+      if (space) {
+        this.pressed = true;
+        this.game.drop();
+        this.game.land();
+      }
     } else {
-      if (!(q || w || left || right || down || up)) {
+      if (!(q || w || left || right || down || up || space)) {
         this.pressed = false;
       }
     }
