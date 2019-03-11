@@ -60,7 +60,6 @@ export class Piece {
     if (this.rotation >= this.numOrientations) {
       this.rotation = 0;
     }
-    let blocks = this.blocks(game.currentLocation);
     if (!game.checkLegal()) {
       this.rotation = oldRotation;
     }
