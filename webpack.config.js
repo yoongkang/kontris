@@ -29,9 +29,12 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Kontris',
-      template: 'index.html'
+      template: path.resolve(__dirname, './index.html')
     }),
-    new CopyWebpackPlugin(['./vendor/'], {}),
+    new CopyWebpackPlugin({
+      patterns: ['./vendor/'],
+      options: {}
+    }),
     new WriteFilePlugin()
   ]
 };
