@@ -29,7 +29,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Kontris',
-      template: path.resolve(__dirname, './index.html')
+      template: path.resolve(__dirname, './index.html'),
+      inject: 'head'
     }),
     new CopyWebpackPlugin({
       patterns: ['./vendor/'],
